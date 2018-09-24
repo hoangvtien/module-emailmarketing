@@ -98,7 +98,7 @@ $array_search = array(
 
 if (!empty($array_search['q'])) {
     $base_url .= '&q=' . $array_search['q'];
-    $where .= ' AND (fullname LIKE "%' . $array_search['q'] . '%" OR email LIKE "%' . $array_search['q'] . '%")';
+    $where .= ' AND (first_name LIKE "%' . $array_search['q'] . '%" OR last_name LIKE "%' . $array_search['q'] . '%" OR email LIKE "%' . $array_search['q'] . '%")';
 }
 
 if ($array_search['group'] >= 0) {
@@ -163,6 +163,7 @@ while ($view = $sth->fetch()) {
     $xtpl->assign('CHECK', $view['status'] == 1 ? 'checked' : '');
     $view['addtime'] = nv_date('H:i d/m/Y', $view['addtime']);
     $view['gender'] = $array_gender[$view['gender']];
+    $view['fullname'] = nv_show_name_user($view['first_name'], $view['last_name']);
     $view['customer_groups'] = '';
     if ($view['groups'] != '') {
         $customer_groups = array();

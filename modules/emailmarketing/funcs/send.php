@@ -65,7 +65,8 @@ if ($mod == 'campaign') {
                             'customerid' => $customer['id'],
                             'nextcustomerid' => isset($array_send[$index + 1]) ? $array_send[$index + 1] : 0,
                             'email' => $customer['email'],
-                            'fullname' => $customer['fullname'],
+                            'first_name' => $customer['first_name'],
+                            'last_name' => $customer['last_name'],
                             'gender' => $customer['gender']
                         );
                         nv_sendmail_action($_customer, $rows, 0);

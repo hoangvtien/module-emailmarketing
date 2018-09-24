@@ -49,7 +49,8 @@ if (!empty($id)) {
                             'customerid' => $result['id'],
                             'nextcustomerid' => isset($array_send[$index + 1]) ? $array_send[$index + 1] : 0,
                             'email' => $result['email'],
-                            'fullname' => $result['fullname'],
+                            'first_name' => $result['first_name'],
+                            'last_name' => $result['last_name'],
                             'gender' => $result['gender']
                         );
                         die(nv_sendmail_action($customer, $rows));

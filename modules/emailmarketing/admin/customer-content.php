@@ -35,7 +35,8 @@ if ($row['id'] > 0) {
     $row['customer_group_old'] = $row['customer_group'];
 } else {
     $row['id'] = 0;
-    $row['fullname'] = '';
+    $row['first_name'] = '';
+    $row['last_name'] = '';
     $row['gender'] = 1;
     $row['birthday'] = 0;
     $row['phone'] = '';
@@ -52,7 +53,8 @@ if ($row['id'] > 0) {
 }
 
 if ($nv_Request->isset_request('submit', 'post')) {
-    $row['fullname'] = $nv_Request->get_title('fullname', 'post', '');
+    $row['first_name'] = $nv_Request->get_title('first_name', 'post', '');
+    $row['last_name'] = $nv_Request->get_title('last_name', 'post', '');
     $row['gender'] = $nv_Request->get_int('gender', 'post', 1);
     $row['email'] = $nv_Request->get_title('email', 'post', '');
     $row['phone'] = $nv_Request->get_title('phone', 'post', '');
@@ -64,8 +66,8 @@ if ($nv_Request->isset_request('submit', 'post')) {
         $row['birthday'] = 0;
     }
 
-    if (empty($row['fullname']) and $array_config['requiredfullname']) {
-        $error[] = $lang_module['error_required_fullname'];
+    if (empty($row['first_name']) and $array_config['requiredfullname']) {
+        $error[] = $lang_module['error_required_first_name'];
     } elseif (empty($row['customer_group'])) {
         $error[] = $lang_module['error_required_customer_group'];
     } elseif (!empty($row['email']) and ($error_email = nv_check_valid_email($row['email'])) != '') {
@@ -82,9 +84,10 @@ if ($nv_Request->isset_request('submit', 'post')) {
         try {
             $new_id = 0;
             if (empty($row['id'])) {
-                $_sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_customer(fullname, gender, birthday, phone, email, groups, addtime) VALUES(:fullname, :gender, :birthday, :phone, :email, :groups, ' . NV_CURRENTTIME . ')';
+                $_sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_customer(first_name, last_name, gender, birthday, phone, email, groups, addtime) VALUES(:first_name, :last_name, :gender, :birthday, :phone, :email, :groups, ' . NV_CURRENTTIME . ')';
                 $data_insert = array();
-                $data_insert['fullname'] = $row['fullname'];
+                $data_insert['first_name'] = $row['first_name'];
+                $data_insert['last_name'] = $row['last_name'];
                 $data_insert['gender'] = $row['gender'];
                 $data_insert['birthday'] = $row['birthday'];
                 $data_insert['phone'] = $row['phone'];
@@ -92,8 +95,9 @@ if ($nv_Request->isset_request('submit', 'post')) {
                 $data_insert['groups'] = implode(',', $row['customer_group']);
                 $new_id = $db->insert_id($_sql, 'id', $data_insert);
             } else {
-                $stmt = $db->prepare('UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_customer SET fullname = :fullname, gender = :gender, birthday = :birthday, phone = :phone, email = :email, groups = :groups WHERE id=' . $row['id']);
-                $stmt->bindParam(':fullname', $row['fullname'], PDO::PARAM_STR);
+                $stmt = $db->prepare('UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_customer SET first_name = :first_name, last_name = :last_name, gender = :gender, birthday = :birthday, phone = :phone, email = :email, groups = :groups WHERE id=' . $row['id']);
+                $stmt->bindParam(':first_name', $row['first_name'], PDO::PARAM_STR);
+                $stmt->bindParam(':last_name', $row['last_name'], PDO::PARAM_STR);
                 $stmt->bindParam(':gender', $row['gender'], PDO::PARAM_INT);
                 $stmt->bindParam(':birthday', $row['birthday'], PDO::PARAM_INT);
                 $stmt->bindParam(':phone', $row['phone'], PDO::PARAM_INT);

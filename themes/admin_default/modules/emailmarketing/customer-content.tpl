@@ -15,11 +15,18 @@
                     <div class="form-group">
                         <label class="col-sm-5 col-md-3 control-label"><strong>{LANG.fullname}</strong> <!-- BEGIN: requiredfullname1 --> <span class="red">(*)</span> <!-- END: requiredfullname1 --></label>
                         <div class="col-sm-19 col-md-21">
-                            <input class="form-control" type="text" name="fullname" value="{ROW.fullname}"
-                            <!-- BEGIN: requiredfullname2 -->
-                            required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')"
-                            <!-- END: requiredfullname2 -->
-                            />
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <input class="form-control" type="text" name="last_name" value="{ROW.last_name}" placeholder="{LANG.last_name}" />
+                                </div>
+                                <div class="col-xs-12">
+                                    <input class="form-control" type="text" name="first_name" value="{ROW.first_name}" placeholder="{LANG.first_name}"
+                                    <!-- BEGIN: requiredfullname2 -->
+                                    required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')"
+                                    <!-- END: requiredfullname2 -->
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">

@@ -82,7 +82,8 @@ function nv_listmail_content($rowid, $ignoredie = 1, $ignoredeclined = 1)
                     $array_email[] = array(
                         'customerid' => $customer_info['id'],
                         'email' => $customer_info['email'],
-                        'fullname' => $customer_info['fullname'],
+                        'first_name' => $customer_info['first_name'],
+                        'last_name' => $customer_info['last_name'],
                         'gender' => $customer_info['gender'],
                         'birthday' => $customer_info['birthday'],
                         'phone' => $customer_info['phone'],
@@ -449,9 +450,10 @@ function nv_add_customer($customer, $customer_group)
 {
     global $module_data, $db, $array_config;
 
-    $_sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_customer(fullname, gender, birthday, email, phone, groups, addtime) VALUES(:fullname, :gender, :birthday, :email, :phone, :groups, ' . NV_CURRENTTIME . ')';
+    $_sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_customer(first_name, last_name, gender, birthday, email, phone, groups, addtime) VALUES(:first_name, :last_name, :gender, :birthday, :email, :phone, :groups, ' . NV_CURRENTTIME . ')';
     $data_insert = array();
-    $data_insert['fullname'] = $customer['fullname'];
+    $data_insert['first_name'] = $customer['first_name'];
+    $data_insert['last_name'] = $customer['last_name'];
     $data_insert['gender'] = $customer['gender'];
     $data_insert['birthday'] = $customer['birthday'];
     $data_insert['email'] = empty($customer['email']) ? $customer['phone'] . '@gmail.com' : $customer['email'];

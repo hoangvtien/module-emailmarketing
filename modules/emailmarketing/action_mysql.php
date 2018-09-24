@@ -26,7 +26,8 @@ $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lan
 $sql_create_module = $sql_drop_module;
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_customer(
   id mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  fullname varchar(255) NOT NULL,
+  first_name varchar(100) NOT NULL DEFAULT '',
+  last_name varchar(150) NOT NULL DEFAULT '',
   gender tinyint(1) unsigned NOT NULL DEFAULT '1',
   birthday int(11) unsigned NOT NULL DEFAULT '0',
   phone varchar(20) NOT NULL,
@@ -152,7 +153,8 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_tmp(
   id mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  fullname varchar(255) NOT NULL,
+  first_name varchar(100) NOT NULL DEFAULT '',
+  last_name varchar(150) NOT NULL DEFAULT '',
   gender tinyint(1) unsigned NOT NULL DEFAULT '1',
   birthday int(11) unsigned NOT NULL DEFAULT '0',
   phone varchar(20) NOT NULL,
