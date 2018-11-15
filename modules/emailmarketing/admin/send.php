@@ -18,7 +18,7 @@ if (!empty($id)) {
         if ($nv_Request->isset_request('send_test_email', 'post')) {
             $title = nv_build_title($rows['title'], array(), true);
             $content = nv_build_content($id, $rows['content'], array(), 0, 0, true);
-            nv_emailmarketing_sendmail($id, $global_config['site_email'], $user_info['email'], $title, $content);
+            nv_emailmarketing_sendmail($id, $global_config['site_email'], $admin_info['email'], $title, $content);
             die($lang_module['send_test_email_success']);
         }
 
@@ -138,7 +138,7 @@ if (!empty($id)) {
     die();
 }
 
-$lang_module['send_test_email_confirm'] = sprintf($lang_module['send_test_email_confirm'], $global_config['site_email']);
+$lang_module['send_test_email_confirm'] = sprintf($lang_module['send_test_email_confirm'], $admin_info['email']);
 
 $xtpl = new XTemplate($op . '.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
 $xtpl->assign('LANG', $lang_module);
