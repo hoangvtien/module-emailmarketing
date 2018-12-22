@@ -185,3 +185,25 @@ $lang_module['content_note_phone'] = 'SĐT khách hàng';
 $lang_module['phonelist_note'] = 'Nhập danh sách số điện thoại, mỗi số trên một hàng';
 $lang_module['mobile_is_error'] = 'SĐT phải là số có 10 hoặc 11 chữ số';
 $lang_module['error_required_phone'] = 'Lỗi: Bạn phải nhập số điện thoại để gửi SMS';
+
+$lang_module['userid_link'] = 'Tài khoản thành viên';
+$lang_module['userid_link_select'] = 'Chọn loại tài khoản';
+$lang_module['userid_link_0'] = 'Không liên kết';
+$lang_module['userid_link_1'] = 'Đã có tài khoản';
+$lang_module['userid_link_2'] = 'Tạo tài khoản mới';
+$lang_module['username'] = 'Tên truy cập';
+$lang_module['password'] = 'Mật khẩu';
+$lang_module['password1'] = 'Nhập lại mật khẩu';
+
+$lang_module['userid_link_note'] = 'Có thể để trống tên truy cập và mật khẩu nếu muốn tạo ngẫu nhiên';
+$lang_module['userid_link_empty'] = 'Chưa được liên kết';
+$lang_module['userid_select'] = 'Chọn tài khoản';
+$lang_module['adduser_email'] = 'Gửi email thông báo thông tin tài khoản đến khách hàng';
+$lang_module['error_required_userid_link'] = 'Lỗi: bạn cần chọn tài khoản liên kết';
+$lang_module['error_password_like'] = 'Lỗi: mật khẩu không giống nhau';
+$lang_module['error_unknow'] = 'Vì lý do nào đó hệ thống không thể thực hiện yêu cầu của bạn lúc này, vui lòng liên hệ với người quản trị để biết thêm thông tin, xin cảm ơn!';
+$lang_module['error_required_username'] = 'Lỗi: bạn cần nhập tên truy cập';
+
+
+
+
