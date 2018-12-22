@@ -37,6 +37,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   is_die tinyint(1) unsigned NOT NULL DEFAULT '0',
   is_declined tinyint(1) unsigned NOT NULL DEFAULT '0',
   status tinyint(1) NOT NULL DEFAULT '1',
+  userid_link mediumint(8) unsigned NOT NULL COMMENT 'Tài khoản liên kết',
   PRIMARY KEY (id),
   UNIQUE KEY email (email)
 ) ENGINE=MyISAM";
