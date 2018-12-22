@@ -23,8 +23,6 @@
                                 </div>
                                 <div class="col-xs-12">
                                     <input class="form-control" type="text" name="first_name" value="{ROW.first_name}" placeholder="{LANG.first_name}"
-                                    
-                                    
                                     <!-- BEGIN: requiredfullname2 -->
                                     required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')"
                                     <!-- END: requiredfullname2 -->
@@ -33,38 +31,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-5 col-md-3 text-right"><strong>{LANG.userid_link_select}</strong></label>
-                        <div class="col-sm-19 col-md-21">
-                            <!-- BEGIN: userid_link_type -->
-                            <label class="m-bottom"><input type="radio" name="userid_link_type" value="{OPTION.key}"{OPTION.checked}>{OPTION.title}</label>&nbsp;&nbsp;&nbsp;
-                            <!-- END: userid_link_type -->
-                            <div id="select_user"{ROW.userid_link_type_1_style}>
-                                <select name="userid_link" id="userid_link" class="form-control">
-                                    <!-- BEGIN: user -->
-                                    <option value="{USER.userid}" selected="selected">{USER.fullname}</option>
-                                    <!-- END: user -->
-                                </select>
-                            </div>
-                            <div id="add_new_user"{ROW.userid_link_type_2_style}>
-                                <div class="row">
-                                    <div class="col-xs-24 col-sm-6 col-md-6">
-                                        <input type="email" class="form-control required" name="email" placeholder="Email" />
-                                    </div>
-                                    <div class="col-xs-24 col-sm-6 col-md-6">
-                                        <input type="text" class="form-control required" name="username" placeholder="{LANG.username}" />
-                                    </div>
-                                    <div class="col-xs-24 col-sm-6 col-md-6">
-                                        <input type="password" class="form-control" name="password" placeholder="{LANG.password}" />
-                                    </div>
-                                    <div class="col-xs-24 col-sm-6 col-md-6">
-                                        <input type="password" class="form-control" name="password1" placeholder="{LANG.password1}" />
-                                    </div>
-                                </div>
-                                <small class="help-block"><em>{LANG.userid_link_note}</em></small> <label><input type="checkbox" name="adduser_email" value="1" {ROW.ck_adduser_email} />{LANG.adduser_email}</label>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="form-group">
                         <label class="col-sm-5 col-md-3 control-label"><strong>{LANG.email}</strong> <span class="red">(*)</span></label>
                         <div class="col-sm-19 col-md-21">
@@ -104,6 +71,38 @@
                                 <!-- BEGIN: customer_group -->
                                 <label class="show"><input type="checkbox" name="customer_group[]" value="{CUSTOMER_GROUP.id}"{CUSTOMER_GROUP.checked}>{CUSTOMER_GROUP.title}</label>
                                 <!-- END: customer_group -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-5 col-md-3 text-right"><strong>{LANG.userid_link_select}</strong></label>
+                        <div class="col-sm-19 col-md-21">
+                            <!-- BEGIN: userid_link_type -->
+                            <label class="m-bottom"><input type="radio" name="userid_link_type" value="{OPTION.key}"{OPTION.checked}>{OPTION.title}</label>&nbsp;&nbsp;&nbsp;
+                            <!-- END: userid_link_type -->
+                            <div id="select_user"{ROW.userid_link_type_1_style}>
+                                <select name="userid_link" id="userid_link" class="form-control">
+                                    <!-- BEGIN: user -->
+                                    <option value="{USER.userid}" selected="selected">{USER.fullname}</option>
+                                    <!-- END: user -->
+                                </select>
+                            </div>
+                            <div id="add_new_user"{ROW.userid_link_type_2_style}>
+                                <div class="row">
+                                    <div class="col-xs-24 col-sm-6 col-md-6">
+                                        <input type="email" class="form-control required" name="email_mk" placeholder="Email" />
+                                    </div>
+                                    <div class="col-xs-24 col-sm-6 col-md-6">
+                                        <input type="text" class="form-control required" name="username" placeholder="{LANG.username}" />
+                                    </div>
+                                    <div class="col-xs-24 col-sm-6 col-md-6">
+                                        <input type="password" class="form-control" name="password" placeholder="{LANG.password}" />
+                                    </div>
+                                    <div class="col-xs-24 col-sm-6 col-md-6">
+                                        <input type="password" class="form-control" name="password1" placeholder="{LANG.password1}" />
+                                    </div>
+                                </div>
+                                <small class="help-block"><em>{LANG.userid_link_note}</em></small> <label><input type="checkbox" name="adduser_email" value="1" {ROW.ck_adduser_email} />{LANG.adduser_email}</label>
                             </div>
                         </div>
                     </div>
@@ -234,9 +233,9 @@
         
         if ($(this).val() == 2) {
             $('#add_new_user').show();
-            var main_email = $('input[name="main_email"]').val();
+            var main_email = $('input[name="email"]').val();
             var username = main_email.split('@')[0];
-            $('input[name="email"]').val(main_email);
+            $('input[name="email_mk"]').val(main_email);
             $('input[name="username"]').val(username);
             
         }
