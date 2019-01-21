@@ -486,3 +486,8 @@ function nv_add_customer($customer, $customer_group)
         return $new_id;
     }
 }
+
+
+
+
+
