@@ -238,6 +238,22 @@ function nv_build_content($rowsid, $content, $customer = array(), $linkstatics =
 {
     global $db, $module_name, $module_info, $global_config, $module_data, $lang_module;
 
+    if (preg_match_all("/\<img[^\>]*src=\"([^\"]*)\"[^\>]*\>/is", $content, $match)) {
+        foreach ($match[0] as $key => $_m) {
+            $image_url = $image_url_tmp = $match[1][$key];
+            $str_replace = 0;
+
+            if (!empty($image_url) and !isset($parsed['host']) and !preg_match('/^\/\//', $image_url)) {
+                $str_replace = 1;
+                $image_url = NV_MY_DOMAIN . $image_url;
+            }
+
+            if ($str_replace) {
+                $content = str_replace($image_url_tmp, $image_url, $content);
+            }
+        }
+    }
+
     if (!$test_mode) {
         $idcustomer = $customer['customerid'];
         $content = nv_unhtmlspecialchars($content);
