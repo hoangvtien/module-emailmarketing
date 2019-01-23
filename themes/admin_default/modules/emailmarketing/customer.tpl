@@ -36,6 +36,16 @@
 		</div>
 	</form>
 </div>
+<form class="form-inline m-bottom pull-left">
+    <select class="form-control" id="action">
+        <!-- BEGIN: action_top -->
+        <option value="{ACTION.key}">{ACTION.value}</option>
+        <!-- END: action_top -->
+    </select>
+    <button class="btn btn-primary" onclick="nv_list_action( $('#action').val(), '{BASE_URL}', '{LANG.error_empty_data}' ); return false;">{LANG.perform}</button>
+    <a class="btn btn-primary" href="{URL_ADD}">{LANG.customer_add}</a>
+</form>
+<div class="clearfix"></div>
 <form action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}" method="post">
 	<div class="table-responsive">
 		<table class="table table-striped table-bordered table-hover">
@@ -61,7 +71,7 @@
 					<td>{VIEW.customer_groups}</td>
 					<td>{VIEW.addtime}</td>
 					<td class="text-center"><input type="checkbox" name="status" id="change_status_{VIEW.id}" value="{VIEW.id}" {CHECK} onclick="nv_change_status({VIEW.id});" /></td>
-					<td class="text-center"><i class="fa fa-edit fa-lg">&nbsp;</i> <a href="{VIEW.link_edit}">{LANG.edit}</a> - <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href="{VIEW.link_delete}" onclick="return confirm(nv_is_del_confirm[0]);">{LANG.delete}</a></td>
+					<td class="text-center"><i class="fa fa-exclamation-circle fa-lg">&nbsp;</i> <a href="{VIEW.link_view}">{LANG.detail}</a> - <i class="fa fa-edit fa-lg">&nbsp;</i> <a href="{VIEW.link_edit}">{LANG.edit}</a> - <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href="{VIEW.link_delete}" onclick="return confirm(nv_is_del_confirm[0]);">{LANG.delete}</a></td>
 				</tr>
 				<!-- END: loop -->
 			</tbody>

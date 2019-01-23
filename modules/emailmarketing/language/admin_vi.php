@@ -204,6 +204,8 @@ $lang_module['error_password_like'] = 'Lỗi: mật khẩu không giống nhau';
 $lang_module['error_unknow'] = 'Vì lý do nào đó hệ thống không thể thực hiện yêu cầu của bạn lúc này, vui lòng liên hệ với người quản trị để biết thêm thông tin, xin cảm ơn!';
 $lang_module['error_required_username'] = 'Lỗi: bạn cần nhập tên truy cập';
 
-
+$lang_module['customer-detail'] = 'Thông tin chi tiết khách hàng' ;
+$lang_module['detail'] = 'Chi tiết';
+$lang_module['error_required_last_name'] = 'Lỗi: bạn cần nhập dữ liệu cho Họ và tên đệm';
 
 

@@ -22,7 +22,8 @@ $allow_func = array(
     'sender',
     'declined',
     'send',
-    'mailserver'
+    'mailserver',
+    'customer-detail'
 );
 
 $array_gender = array(
