@@ -151,6 +151,8 @@ $xtpl->assign('OP', $op);
 $xtpl->assign('ROW', $row);
 $xtpl->assign('SEARCH', $array_search);
 $xtpl->assign('BASE_URL', $base_url);
+$xtpl->assign('URL_ADD', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=customer-content');
+
 
 $generate_page = nv_generate_page($base_url, $num_items, $per_page, $page);
 if (!empty($generate_page)) {
@@ -173,6 +175,7 @@ while ($view = $sth->fetch()) {
         }
         $view['customer_groups'] = implode(', ', $customer_groups);
     }
+    $view['link_view'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=customer-detail&amp;id=' . $view['id'];    
     $view['link_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=customer-content&amp;id=' . $view['id'];
     $view['link_delete'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;delete_id=' . $view['id'] . '&amp;delete_checkss=' . md5($view['id'] . NV_CACHE_PREFIX . $client_info['session_id']);
     $xtpl->assign('VIEW', $view);
@@ -224,6 +227,7 @@ foreach ($array_action as $key => $value) {
         'key' => $key,
         'value' => $value
     ));
+    $xtpl->parse('main.action_top');
     $xtpl->parse('main.action');
 }
 

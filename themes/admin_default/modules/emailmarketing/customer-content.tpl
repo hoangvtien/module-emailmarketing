@@ -19,7 +19,11 @@
                         <div class="col-sm-19 col-md-21">
                             <div class="row">
                                 <div class="col-xs-12">
-                                    <input class="form-control" type="text" name="last_name" value="{ROW.last_name}" placeholder="{LANG.last_name}" />
+                                    <input class="form-control" type="text" name="last_name" value="{ROW.last_name}" placeholder="{LANG.last_name}" 
+                                       <!-- BEGIN: requiredfullname3 -->
+                                    required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')"
+                                    <!-- END: requiredfullname3 -->
+                                    />
                                 </div>
                                 <div class="col-xs-12">
                                     <input class="form-control" type="text" name="first_name" value="{ROW.first_name}" placeholder="{LANG.first_name}"

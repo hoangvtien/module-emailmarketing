@@ -321,6 +321,7 @@ foreach ($array_gender as $index => $value) {
 if ($array_config['requiredfullname']) {
     $xtpl->parse('main.requiredfullname1');
     $xtpl->parse('main.requiredfullname2');
+    $xtpl->parse('main.requiredfullname3');
 }
 
 if (!empty($error)) {
