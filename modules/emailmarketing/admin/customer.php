@@ -98,7 +98,7 @@ $array_search = array(
 
 if (!empty($array_search['q'])) {
     $base_url .= '&q=' . $array_search['q'];
-    $where .= ' AND (first_name LIKE "%' . $array_search['q'] . '%" OR last_name LIKE "%' . $array_search['q'] . '%" OR email LIKE "%' . $array_search['q'] . '%")';
+    $where .= ' AND (first_name LIKE "%' . $array_search['q'] . '%" OR last_name LIKE "%' . $array_search['q'] . '%" OR CONCAT(last_name," ",first_name) LIKE "%' . $array_search['q'] . '%" OR email LIKE "%' . $array_search['q'] . '%")';
 }
 
 if ($array_search['group'] >= 0) {
