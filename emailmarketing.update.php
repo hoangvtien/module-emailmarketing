@@ -32,6 +32,8 @@ while (list ($lang) = $language_query->fetch(3)) {
 
         $_sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_tmp ADD last_name VARCHAR(150) NOT NULL AFTER first_name;";
 
+        $db->query("UPDATE " . $db_config['prefix'] . "_setup_extensions SET version='1.0.01 " . NV_CURRENTTIME . "' WHERE type='module' and basename=" . $db->quote($mod));
+
         if (!empty($_sql)) {
             foreach ($_sql as $sql) {
                 try {
