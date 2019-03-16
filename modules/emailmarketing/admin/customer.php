@@ -81,6 +81,12 @@ if ($nv_Request->isset_request('customerlist', 'post')) {
     }
     die('NO');
 }
+if (!class_exists('PHPExcel')) {
+    if (file_exists(NV_ROOTDIR . '/includes/class/PHPExcel.php')) {
+        require_once NV_ROOTDIR . '/includes/class/PHPExcel.php';
+    }
+}
+$array_data = array();
 
 $row = array();
 $error = array();
@@ -124,6 +130,11 @@ if ($mod == 'declined') {
     $set_active_op = 'dielist';
 } else {
     $where .= ' AND is_die=0 AND is_declined=0';
+}
+$is_download = false;
+if ($nv_Request->isset_request('download', 'post,get') and class_exists('PHPExcel')) {
+    $is_download = true;
+    $per_page = 0;
 }
 
 $db->sqlreset()
@@ -175,11 +186,32 @@ while ($view = $sth->fetch()) {
         }
         $view['customer_groups'] = implode(', ', $customer_groups);
     }
+    $array_status = array(
+        1 => $lang_module['active'],
+        0 => $lang_module['inactive']
+    );
+    $view['status'] = $array_status[$view['status']];
+    $array_data[$view['id']] = $view;
+    
     $view['link_view'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=customer-detail&amp;id=' . $view['id'];    
     $view['link_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=customer-content&amp;id=' . $view['id'];
     $view['link_delete'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;delete_id=' . $view['id'] . '&amp;delete_checkss=' . md5($view['id'] . NV_CACHE_PREFIX . $client_info['session_id']);
     $xtpl->assign('VIEW', $view);
     $xtpl->parse('main.loop');
+}
+// Download
+if ($is_download && !empty($array_data)) {
+    foreach ($array_data as $index => $data) {
+        $array_data[$index]['birthday'] = !empty($array_data[$index]['birthday']) ? nv_date('d/m/Y', $array_data[$index]['birthday']) : '';
+    }
+    nv_emailmatketing_download($lang_module['list_customer'], $array_data);
+    die();
+}
+
+if (!empty($array_data) and class_exists('PHPExcel')) {
+    $xtpl->assign('URL_EXCEL', $base_url . '&download=1');
+} else {
+    $xtpl->parse('main.btn_disabled');
 }
 
 if (!empty($array_customer_groups)) {
