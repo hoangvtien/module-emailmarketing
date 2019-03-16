@@ -44,6 +44,7 @@
     </select>
     <button class="btn btn-primary" onclick="nv_list_action( $('#action').val(), '{BASE_URL}', '{LANG.error_empty_data}' ); return false;">{LANG.perform}</button>
     <a class="btn btn-primary" href="{URL_ADD}">{LANG.customer_add}</a>
+     <a href="{URL_EXCEL}" target="_blank" class="btn btn-primary <!-- BEGIN: btn_disabled -->disabled<!-- END: btn_disabled -->"><em class="fa fa-file-excel-o">&nbsp;</em>{LANG.task_export}</a>
 </form>
 <div class="clearfix"></div>
 <form action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}" method="post">

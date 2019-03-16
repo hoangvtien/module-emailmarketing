@@ -208,4 +208,5 @@ $lang_module['customer-detail'] = 'Thông tin chi tiết khách hàng' ;
 $lang_module['detail'] = 'Chi tiết';
 $lang_module['error_required_last_name'] = 'Lỗi: bạn cần nhập dữ liệu cho Họ và tên đệm';
 
-
+$lang_module['task_export'] = 'Xuất excel';
+$lang_module['list_customer'] = 'Danh sách thông tin khách hàng';
