@@ -468,8 +468,8 @@ function nv_add_customer($customer, $customer_group)
 
     $_sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_customer(first_name, last_name, gender, birthday, email, phone, groups, addtime) VALUES(:first_name, :last_name, :gender, :birthday, :email, :phone, :groups, ' . NV_CURRENTTIME . ')';
     $data_insert = array();
-    $data_insert['first_name'] = $customer['first_name'];
-    $data_insert['last_name'] = $customer['last_name'];
+    $data_insert['first_name'] = !empty($customer['first_name']) ? $customer['first_name'] : '';
+    $data_insert['last_name'] = !empty($customer['last_name']) ? $customer['last_name'] : '';
     $data_insert['gender'] = $customer['gender'];
     $data_insert['birthday'] = $customer['birthday'];
     $data_insert['email'] = empty($customer['email']) ? $customer['phone'] . '@gmail.com' : $customer['email'];
