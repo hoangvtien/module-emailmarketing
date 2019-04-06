@@ -150,6 +150,7 @@ $lang_module['save_data'] = 'Ghi dữ liệu';
 $lang_module['send_test_email'] = 'Gửi thử nghiệm';
 $lang_module['send_test_email_confirm'] = 'Hệ thống sẽ gửi một email xem trước với nội dung chiến dịch đến email %s, bạn có muốn thực hiện?';
 $lang_module['send_test_email_success'] = 'Đã gửi thư thành công!';
+$lang_module['creator'] = 'Người tạo';
 
 $lang_module['config_general'] = 'Cấu hình chung';
 $lang_module['config_requiredfullname'] = 'Bắt buộc nhập họ tên khách hàng';

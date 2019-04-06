@@ -13,18 +13,21 @@ require_once NV_ROOTDIR . '/modules/' . $module_file . '/global.functions.php';
 
 $allow_func = array(
     'main',
-    'config',
     'customer',
     'customer-groups',
     'customer-content',
     'content',
-    'dielist',
-    'sender',
-    'declined',
     'send',
-    'mailserver',
     'customer-detail'
 );
+
+if (defined('NV_IS_SPADMIN')) {
+    $allow_func[] = 'mailserver';
+    $allow_func[] = 'config';
+    $allow_func[] = 'dielist';
+    $allow_func[] = 'declined';
+    $allow_func[] = 'sender';
+}
 
 $array_gender = array(
     1 => $lang_module['gender_1'],
@@ -75,14 +78,13 @@ function nv_emailmarketing_check_mobile($phone)
     }
 }
 
-
 function nv_users_add($username, $password, $email, $first_name, $last_name, $gender, $birthday = 0, $adduser_email = 1)
 {
     global $db, $global_config, $user_info, $nv_Cache, $crypt, $lang_module;
-    
+
     // chế độ import dữ liệu
     $groups_list = nv_groups_list();
-    
+
     $_user = array();
     $_user['view_mail'] = 0;
     $_user['in_groups'] = array(
@@ -90,7 +92,7 @@ function nv_users_add($username, $password, $email, $first_name, $last_name, $ge
     );
     $_user['in_groups_default'] = 0;
     $_user['is_official'] = 1;
-    
+
     // xác định nhóm thành viên
     $in_groups = array();
     foreach ($_user['in_groups'] as $_group_id) {
@@ -99,19 +101,19 @@ function nv_users_add($username, $password, $email, $first_name, $last_name, $ge
         }
     }
     $_user['in_groups'] = array_intersect($in_groups, array_keys($groups_list));
-    
+
     if (empty($_user['is_official'])) {
         $_user['in_groups'][] = 7;
         $_user['in_groups_default'] = 7;
     } elseif (empty($_user['in_groups_default']) or !in_array($_user['in_groups_default'], $_user['in_groups'])) {
         $_user['in_groups_default'] = 4;
     }
-    
+
     if (empty($_user['in_groups_default']) and sizeof($_user['in_groups'])) {
         trigger_error($lang_module['edit_error_group_default']);
         return 0;
     }
-    
+
     $sql = "INSERT INTO " . NV_USERS_GLOBALTABLE . " (
                     group_id, username, md5username, password, email, first_name, last_name, gender, birthday, sig, regdate,
                     question, answer, passlostkey, view_mail,
@@ -147,12 +149,12 @@ function nv_users_add($username, $password, $email, $first_name, $last_name, $ge
     $data_insert['question'] = '';
     $data_insert['answer'] = '';
     $userid = $db->insert_id($sql, 'userid', $data_insert);
-    
+
     if (!$userid) {
         trigger_error($lang_module['error_unknow']);
         return 0;
-    }    
-    
+    }
+
     if (!empty($_user['in_groups'])) {
         foreach ($_user['in_groups'] as $group_id) {
             if ($group_id != 7) {
@@ -162,7 +164,7 @@ function nv_users_add($username, $password, $email, $first_name, $last_name, $ge
     }
     $db->query('UPDATE ' . NV_USERS_GLOBALTABLE . '_groups SET numbers = numbers+1 WHERE group_id=' . ($_user['is_official'] ? 4 : 7));
     $nv_Cache->delMod('users');
-    
+
     // Gửi mail thông báo
     if (!empty($adduser_email)) {
         $full_name = nv_show_name_user($first_name, $last_name, $username);
@@ -171,7 +173,7 @@ function nv_users_add($username, $password, $email, $first_name, $last_name, $ge
         $message = sprintf($lang_module['adduser_register_info1'], $full_name, $global_config['site_name'], $_url, $username, $password);
         @nv_sendmail($global_config['site_email'], $email, $subject, $message);
     }
-    
+
     return $userid;
 }
 
@@ -180,7 +182,6 @@ function nv_users_add($username, $password, $email, $first_name, $last_name, $ge
  *
  * @return
  */
-
 
 /**
  * nv_emailmatketing_download()
@@ -193,7 +194,7 @@ function nv_users_add($username, $password, $email, $first_name, $last_name, $ge
 function nv_emailmatketing_download($title, $array_data, $type = 'xlsx')
 {
     global $module_name, $admin_info, $lang_module, $workforce_list, $user_info, $array_field_config;
-    
+
     if (empty($array_data)) {
         die('Nothing download!');
     }
@@ -218,26 +219,26 @@ function nv_emailmatketing_download($title, $array_data, $type = 'xlsx')
     $objPHPExcel->setActiveSheetIndex(0);
     // Set properties
     $objPHPExcel->getProperties()
-    ->setCreator($admin_info['username'])
-    ->setLastModifiedBy($admin_info['username'])
-    ->setTitle($title)
-    ->setSubject($title)
-    ->setDescription($title)
-    ->setCategory($module_name);
+        ->setCreator($admin_info['username'])
+        ->setLastModifiedBy($admin_info['username'])
+        ->setTitle($title)
+        ->setSubject($title)
+        ->setDescription($title)
+        ->setCategory($module_name);
     $columnIndex = 0; // Cot bat dau ghi du lieu
     $rowIndex = 3; // Dong bat dau ghi du lieu
     // thông tin thành viên
     $objPHPExcel->getActiveSheet()
-    ->setCellValue(PHPExcel_Cell::stringFromColumnIndex($columnIndex) . $rowIndex, $lang_module['number'])
-    ->setCellValue(PHPExcel_Cell::stringFromColumnIndex($columnIndex + 1) . $rowIndex, $lang_module['fullname'])
-    ->setCellValue(PHPExcel_Cell::stringFromColumnIndex($columnIndex + 2) . $rowIndex, $lang_module['gender'])
-    ->setCellValue(PHPExcel_Cell::stringFromColumnIndex($columnIndex + 3) . $rowIndex, $lang_module['birthday'])
-    ->setCellValue(PHPExcel_Cell::stringFromColumnIndex($columnIndex + 4) . $rowIndex, $lang_module['phone'])
-    ->setCellValue(PHPExcel_Cell::stringFromColumnIndex($columnIndex + 5) . $rowIndex, $lang_module['email'])
-    ->setCellValue(PHPExcel_Cell::stringFromColumnIndex($columnIndex + 6) . $rowIndex, $lang_module['customer_groups'])
-    ->setCellValue(PHPExcel_Cell::stringFromColumnIndex($columnIndex + 7) . $rowIndex, $lang_module['addtime'])
-    ->setCellValue(PHPExcel_Cell::stringFromColumnIndex($columnIndex + 8) . $rowIndex, $lang_module['status']);
-    
+        ->setCellValue(PHPExcel_Cell::stringFromColumnIndex($columnIndex) . $rowIndex, $lang_module['number'])
+        ->setCellValue(PHPExcel_Cell::stringFromColumnIndex($columnIndex + 1) . $rowIndex, $lang_module['fullname'])
+        ->setCellValue(PHPExcel_Cell::stringFromColumnIndex($columnIndex + 2) . $rowIndex, $lang_module['gender'])
+        ->setCellValue(PHPExcel_Cell::stringFromColumnIndex($columnIndex + 3) . $rowIndex, $lang_module['birthday'])
+        ->setCellValue(PHPExcel_Cell::stringFromColumnIndex($columnIndex + 4) . $rowIndex, $lang_module['phone'])
+        ->setCellValue(PHPExcel_Cell::stringFromColumnIndex($columnIndex + 5) . $rowIndex, $lang_module['email'])
+        ->setCellValue(PHPExcel_Cell::stringFromColumnIndex($columnIndex + 6) . $rowIndex, $lang_module['customer_groups'])
+        ->setCellValue(PHPExcel_Cell::stringFromColumnIndex($columnIndex + 7) . $rowIndex, $lang_module['addtime'])
+        ->setCellValue(PHPExcel_Cell::stringFromColumnIndex($columnIndex + 8) . $rowIndex, $lang_module['status']);
+
     // Hiển thị thông tin dữ liệu
     $i = $rowIndex + 1;
     $number = 1;
@@ -262,11 +263,10 @@ function nv_emailmatketing_download($title, $array_data, $type = 'xlsx')
         $objPHPExcel->getActiveSheet()->setCellValue($col . $i, $data['addtime']);
         $col = PHPExcel_Cell::stringFromColumnIndex(8);
         $objPHPExcel->getActiveSheet()->setCellValue($col . $i, $data['status']);
-        
+
         // thông tin tùy biến
         $j = $columnIndex + 9;
-        
-        
+
         $i++;
         $number++;
     }
@@ -276,22 +276,22 @@ function nv_emailmatketing_download($title, $array_data, $type = 'xlsx')
     $objPHPExcel->getActiveSheet()->setTitle('Sheet 1');
     // Set page orientation and size
     $objPHPExcel->getActiveSheet()
-    ->getPageSetup()
-    ->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);
+        ->getPageSetup()
+        ->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT);
     $objPHPExcel->getActiveSheet()
-    ->getPageSetup()
-    ->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
+        ->getPageSetup()
+        ->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
     // Excel title
     $objPHPExcel->getActiveSheet()->mergeCells('A2:' . $highestColumn . '2');
     $objPHPExcel->getActiveSheet()->setCellValue('A2', $title);
     $objPHPExcel->getActiveSheet()
-    ->getStyle('A2')
-    ->getAlignment()
-    ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        ->getStyle('A2')
+        ->getAlignment()
+        ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
     $objPHPExcel->getActiveSheet()
-    ->getStyle('A2')
-    ->getAlignment()
-    ->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+        ->getStyle('A2')
+        ->getAlignment()
+        ->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
     // Cấu hình hiển thị trong excel
     $styleArray = array(
         'borders' => array(
@@ -304,46 +304,46 @@ function nv_emailmatketing_download($title, $array_data, $type = 'xlsx')
         )
     );
     $objPHPExcel->getActiveSheet()
-    ->getStyle('A3' . ':' . $highestColumn . $highestRow)
-    ->applyFromArray($styleArray);
-    
+        ->getStyle('A3' . ':' . $highestColumn . $highestRow)
+        ->applyFromArray($styleArray);
+
     // Set font size
     $objPHPExcel->getActiveSheet()
-    ->getStyle("A1:" . $highestColumn . $highestRow)
-    ->getFont()
-    ->setSize(13);
-    
+        ->getStyle("A1:" . $highestColumn . $highestRow)
+        ->getFont()
+        ->setSize(13);
+
     $styleArray = array(
         'font' => array(
             'bold' => true
         )
     );
     $objPHPExcel->getActiveSheet()
-    ->getStyle('A2')
-    ->applyFromArray($styleArray);
-    
+        ->getStyle('A2')
+        ->applyFromArray($styleArray);
+
     // Set font size
     $objPHPExcel->getActiveSheet()
-    ->getStyle("A2")
-    ->getFont()
-    ->setSize(16);
-    
+        ->getStyle("A2")
+        ->getFont()
+        ->setSize(16);
+
     $objPHPExcel->getActiveSheet()
-    ->getStyle("A3:" . $highestColumn . 3)
-    ->getFont()
-    ->setBold(true);
-    
+        ->getStyle("A3:" . $highestColumn . 3)
+        ->getFont()
+        ->setBold(true);
+
     // Set auto column width
     foreach (range('A', $highestColumn) as $columnID) {
         $objPHPExcel->getActiveSheet()
-        ->getColumnDimension($columnID)
-        ->setAutoSize(true);
+            ->getColumnDimension($columnID)
+            ->setAutoSize(true);
     }
-    
+
     $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, $array['objType']);
     $file_src = NV_ROOTDIR . NV_BASE_SITEURL . NV_TEMP_DIR . '/' . change_alias($lang_module['post_list'] . '-' . nv_date('d/m/Y', NV_CURRENTTIME)) . '.' . $array['objExt'];
     $objWriter->save($file_src);
-    
+
     $download = new NukeViet\Files\Download($file_src, NV_ROOTDIR . NV_BASE_SITEURL . NV_TEMP_DIR);
     $download->download_file();
     die();

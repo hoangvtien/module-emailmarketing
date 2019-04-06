@@ -140,7 +140,7 @@ if ($nv_Request->isset_request('submit', 'post') or $draft) {
             }
 
             if (empty($row['id'])) {
-                $_sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_rows (idsender, idreplyto, title, content, files, usergroup, customergroup, emaillist, addtime, typetime, begintime, endtime, linkstatics, openstatics, sendstatus) VALUES (:idsender, :idreplyto, :title, :content, :files, :usergroup, :customergroup, :emaillist, ' . NV_CURRENTTIME . ', :typetime, :begintime, :endtime, :linkstatics, :openstatics, :sendstatus)';
+                $_sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_rows (idsender, idreplyto, title, content, files, usergroup, customergroup, emaillist, addtime, typetime, begintime, endtime, linkstatics, openstatics, sendstatus, userid) VALUES (:idsender, :idreplyto, :title, :content, :files, :usergroup, :customergroup, :emaillist, ' . NV_CURRENTTIME . ', :typetime, :begintime, :endtime, :linkstatics, :openstatics, :sendstatus, ' . $admin_info['userid'] . ')';
                 $data_insert = array();
                 $data_insert['idsender'] = $row['idsender'];
                 $data_insert['idreplyto'] = $row['idreplyto'];

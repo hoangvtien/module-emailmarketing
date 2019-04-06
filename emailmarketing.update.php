@@ -34,6 +34,8 @@ while (list ($lang) = $language_query->fetch(3)) {
 
         $db->query("UPDATE " . $db_config['prefix'] . "_setup_extensions SET version='1.0.01 " . NV_CURRENTTIME . "' WHERE type='module' and basename=" . $db->quote($mod));
 
+        $_sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_rows ADD userid MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT '0' AFTER sendstatus;";
+
         if (!empty($_sql)) {
             foreach ($_sql as $sql) {
                 try {

@@ -20,7 +20,7 @@ if ($nv_Request->isset_request('delete_id', 'get') and $nv_Request->isset_reques
 } elseif ($nv_Request->isset_request('delete_list', 'post')) {
     $listall = $nv_Request->get_title('listall', 'post', '');
     $array_id = explode(',', $listall);
-    
+
     if (!empty($array_id)) {
         foreach ($array_id as $id) {
             nv_row_delete($id);
@@ -51,6 +51,12 @@ if (!empty($array_search['q'])) {
 if ($array_search['status'] >= 0) {
     $base_url .= '&status=' . $array_search['status'];
     $where .= ' AND sendstatus=' . $array_search['status'];
+}
+
+// phân quyền xem danh sách chiến dịch
+// nếu không phải là tối cao hoặc điều hành chung, thì là quản lý module
+if (!defined('NV_IS_SPADMIN')) {
+    $where .= ' AND userid=' . $admin_info['userid'];
 }
 
 $db->sqlreset()
@@ -84,9 +90,21 @@ if (!empty($generate_page)) {
     $xtpl->assign('NV_GENERATE_PAGE', $generate_page);
     $xtpl->parse('main.generate_page');
 }
-$number = $page > 1 ? ($per_page * ($page - 1)) + 1 : 1;
+
+$array_users = array();
 while ($view = $sth->fetch()) {
-    $view['number'] = $number++;
+    if (!isset($array_users[$view['userid']])) {
+        $users = $db->query('SELECT username, first_name, last_name FROM ' . NV_USERS_GLOBALTABLE . ' WHERE userid=' . $view['userid'])->fetch();
+        if ($users) {
+            $view['creator'] = nv_show_name_user($users['first_name'], $users['last_name'], $users['username']);
+            $array_users[$view['userid']] = $view['creator'];
+        } else {
+            $view['creator'] = 'N/A';
+        }
+    } else {
+        $view['creator'] = $array_users[$view['userid']];
+    }
+
     $view['addtime'] = nv_date('H:i d/m/Y', $view['addtime']);
     $view['begintime'] = $view['typetime'] == 0 ? $lang_module['typetime_0'] : nv_date('H:i d/m/Y', $view['begintime']);
     $view['sendstatusf'] = $lang_module['sendstatus_' . $view['sendstatus']];
@@ -96,9 +114,9 @@ while ($view = $sth->fetch()) {
     $view['link_delete'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;delete_id=' . $view['id'] . '&amp;delete_checkss=' . md5($view['id'] . NV_CACHE_PREFIX . $client_info['session_id']);
     $view['link_statics'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=send&amp;id=' . $view['id'];
     $view['link_copy'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=content&amp;id=' . $view['id'] . '&amp;copy=1';
-    
+
     $xtpl->assign('VIEW', $view);
-    
+
     if (in_array($view['sendstatus'], array(
         0,
         2
@@ -107,7 +125,7 @@ while ($view = $sth->fetch()) {
     } else {
         $xtpl->parse('main.loop.statics');
     }
-    
+
     $xtpl->parse('main.loop');
 }
 

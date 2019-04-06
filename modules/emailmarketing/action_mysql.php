@@ -106,6 +106,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   linkstatics tinyint(1) unsigned NOT NULL DEFAULT '1',
   openstatics tinyint(1) unsigned NOT NULL DEFAULT '1',
   sendstatus tinyint(1) unsigned NOT NULL DEFAULT '0',
+  userid mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Người tạo chiến dịch',
   PRIMARY KEY (id)
 ) ENGINE=MyISAM";
 
