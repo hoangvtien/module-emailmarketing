@@ -287,7 +287,6 @@ function nv_build_content($rowsid, $content, $customer = array(), $linkstatics =
 
     // Thay the bien noi dung
     if (!$test_mode) {
-        die(NV_MY_DOMAIN . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $module_info['alias']['statics'] . '&action=declined&rowsid=' . $rowsid . '&customer=' . $idcustomer . '&checksum=' . md5($global_config['sitekey'] . '-' . $idcustomer . '-' . $rowsid));
         $array_replace = array(
             '[URL_DECLINED]' => NV_MY_DOMAIN . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $module_info['alias']['statics'] . '&action=declined&rowsid=' . $rowsid . '&customer=' . $idcustomer . '&checksum=' . md5($global_config['sitekey'] . '-' . $idcustomer . '-' . $rowsid)
         );
