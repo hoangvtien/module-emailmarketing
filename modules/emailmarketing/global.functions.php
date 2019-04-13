@@ -262,6 +262,15 @@ function nv_build_content($rowsid, $content, $customer = array(), $linkstatics =
         $idcustomer = $customer['customerid'];
         $content = nv_unhtmlspecialchars($content);
 
+        // Thay the bien noi dung
+        $array_replace = array(
+            '[URL_DECLINED]' => NV_MY_DOMAIN . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $module_info['alias']['statics'] . '&action=declined&rowsid=' . $rowsid . '&customer=' . $idcustomer . '&checksum=' . md5($global_config['sitekey'] . '-' . $idcustomer . '-' . $rowsid)
+        );
+        foreach ($array_replace as $index => $value) {
+            $content = str_replace($index, $value, $content);
+            $content = str_replace($index, $value, $content);
+        }
+
         // Theo doi click vao link trong noi dung
         if ($linkstatics) {
             $regexp = "<a\s[^>]*href=(\"??)([^\" >]*?)\\1[^>]*>(.*)<\/a>";
@@ -284,18 +293,6 @@ function nv_build_content($rowsid, $content, $customer = array(), $linkstatics =
     if (!file_exists(NV_ROOTDIR . '/' . $logo)) {
         $logo = $global_config['site_logo'];
     }
-
-    // Thay the bien noi dung
-    if (!$test_mode) {
-        $array_replace = array(
-            '[URL_DECLINED]' => NV_MY_DOMAIN . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $module_info['alias']['statics'] . '&action=declined&rowsid=' . $rowsid . '&customer=' . $idcustomer . '&checksum=' . md5($global_config['sitekey'] . '-' . $idcustomer . '-' . $rowsid)
-        );
-        foreach ($array_replace as $index => $value) {
-            $content = str_replace($index, $value, $content);
-            $content = str_replace($index, $value, $content);
-        }
-    }
-    $content = str_replace('[CONTENT]', $content, $content);
 
     // Theo doi khach mo thu
     if ($openstatics) {
@@ -503,8 +500,3 @@ function nv_add_customer($customer, $customer_group)
         return $new_id;
     }
 }
-
-
-
-
-
