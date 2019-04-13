@@ -136,8 +136,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   email varchar(100) NOT NULL,
   weight tinyint(2) NOT NULL DEFAULT '0',
   status tinyint(1) unsigned NOT NULL DEFAULT '1',
-  PRIMARY KEY (id),
-  UNIQUE KEY email (email)
+  PRIMARY KEY (id)
 ) ENGINE=MyISAM";
 
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_mailserver(

@@ -73,6 +73,15 @@
                     </div>
                     <div class="form-group">
                         <label><strong>{LANG.content}</strong></label> {ROW.content}
+                        <blockquote class="personal">
+                            <div class="row">
+                                <!-- BEGIN: personal -->
+                                <div class="col-xs-24 col-sm-12">
+                                    <label>{PERSONAL.index}</label> {PERSONAL.value}
+                                </div>
+                                <!-- END: personal -->
+                            </div>
+                        </blockquote>
                     </div>
                 </div>
             </div>

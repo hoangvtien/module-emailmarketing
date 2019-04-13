@@ -15,6 +15,10 @@ if (isset($site_mods['customer']) && $array_config['customer_data'] == 2) {
     define('NV_CUSTOMER', true);
 }
 
+$array_personal = array(
+    '[URL_DECLINED]' => $lang_module['content_note_url_declined']
+);
+
 function nv_listmail_content($rowid, $ignoredie = 1, $ignoredeclined = 1)
 {
     global $db, $module_data, $lang_module, $nv_Cache, $module_name;
@@ -281,11 +285,25 @@ function nv_build_content($rowsid, $content, $customer = array(), $linkstatics =
         $logo = $global_config['site_logo'];
     }
 
+    // Thay the bien noi dung
+    if (!$test_mode) {
+        die(NV_MY_DOMAIN . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $module_info['alias']['statics'] . '&action=declined&rowsid=' . $rowsid . '&customer=' . $idcustomer . '&checksum=' . md5($global_config['sitekey'] . '-' . $idcustomer . '-' . $rowsid));
+        $array_replace = array(
+            '[URL_DECLINED]' => NV_MY_DOMAIN . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $module_info['alias']['statics'] . '&action=declined&rowsid=' . $rowsid . '&customer=' . $idcustomer . '&checksum=' . md5($global_config['sitekey'] . '-' . $idcustomer . '-' . $rowsid)
+        );
+        foreach ($array_replace as $index => $value) {
+            $content = str_replace($index, $value, $content);
+            $content = str_replace($index, $value, $content);
+        }
+    }
+    $content = str_replace('[CONTENT]', $content, $content);
+
     // Theo doi khach mo thu
     if ($openstatics) {
-        $replace = NV_MY_DOMAIN . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['statics'] . '&amp;action=openmail&amp;rowsid=' . $rowsid . '&amp;customer=' . $idcustomer . '&amp;checksum=' . md5($global_config['sitekey'] . '-' . $idcustomer . '-' . $rowsid);
+        $replace = NV_MY_DOMAIN . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $module_info['alias']['statics'] . '&action=openmail&rowsid=' . $rowsid . '&customer=' . $idcustomer . '&checksum=' . md5($global_config['sitekey'] . '-' . $idcustomer . '-' . $rowsid);
         $html = $html . '<img src="' . $replace . '" style="display: none" />';
     }
+
     return $html;
 }
 

@@ -108,6 +108,7 @@ $lang_module['html'] = 'Nội dung';
 $lang_module['image'] = 'Hình ảnh';
 $lang_module['error_required_title'] = 'Lỗi: bạn cần nhập dữ liệu cho Tiêu đề';
 $lang_module['error_required_html'] = 'Lỗi: bạn cần nhập dữ liệu cho Nội dung';
+$lang_module['content_note_url_declined'] = 'Liên kết hủy nhận thư';
 $lang_module['send'] = 'Gửi thư';
 $lang_module['sends'] = 'Gửi';
 $lang_module['sendmail_s'] = 'Gửi thư "%s"';

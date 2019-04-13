@@ -333,6 +333,16 @@ if (!empty($array_sender)) {
     }
 }
 
+if (!empty($array_personal)) {
+    foreach ($array_personal as $index => $value) {
+        $xtpl->assign('PERSONAL', array(
+            'index' => $index,
+            'value' => $value
+        ));
+        $xtpl->parse('main.personal');
+    }
+}
+
 if (!empty($error)) {
     $xtpl->assign('ERROR', implode('<br />', $error));
     $xtpl->parse('main.error');

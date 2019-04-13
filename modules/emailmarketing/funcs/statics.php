@@ -46,15 +46,10 @@ if (!empty($idcustomer) and $checksum == md5($global_config['sitekey'] . '-' . $
     } elseif ($action == 'declined') {
         if ($array_config['allow_declined']) {
             $db->query('UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_customer SET is_declined=1 WHERE id=' . $idcustomer);
-            $lang_module['declined_content'] = sprintf($lang_module['declined_content'], $global_config['site_name']);
-            $contents = nv_theme_alert($lang_module['decline_title'], $lang_module['decline_content'], 'info', NV_BASE_SITEURL, $lang_module['gohome']);
+            nv_info_die($lang_module['declined_title'], $lang_global['site_info'], $lang_module['declined_content']);
         } else {
-            $contents = nv_theme_alert($lang_module['declined_error_title'], $lang_module['declined_error_content'], 'warning');
+            nv_info_die($lang_module['declined_error_title'], $lang_global['site_info'], $lang_module['declined_error_content']);
         }
-        
-        include NV_ROOTDIR . '/includes/header.php';
-        echo nv_site_theme($contents);
-        include NV_ROOTDIR . '/includes/footer.php';
     }
 } else {
     Header('Location: ' . NV_BASE_SITEURL);
