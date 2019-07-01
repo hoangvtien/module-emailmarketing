@@ -44,10 +44,12 @@ $array_customer_groups[0] = array(
 
 if (defined('NV_CUSTOMER')) {
     $sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_customer_types WHERE active=1 ORDER BY weight';
-    $array_customer_groups += $nv_Cache->db($sql, 'id', 'customer');
+    $list = $nv_Cache->db($sql, 'id', 'customer');
+    $array_customer_groups = array_merge($list, $array_customer_groups);
 } else {
     $sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_groups WHERE status=1 ORDER BY weight';
-    $array_customer_groups += $nv_Cache->db($sql, 'id', $module_name);
+    $list = $nv_Cache->db($sql, 'id', 'customer');
+    $array_customer_groups = array_merge($list, $array_customer_groups);
 }
 
 function nv_emailmarketing_customer_delete($id)
