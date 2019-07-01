@@ -48,7 +48,7 @@ if (defined('NV_CUSTOMER')) {
     $array_customer_groups = array_merge($list, $array_customer_groups);
 } else {
     $sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_groups WHERE status=1 ORDER BY weight';
-    $list = $nv_Cache->db($sql, 'id', 'customer');
+    $list = $nv_Cache->db($sql, 'id', $module_name);
     $array_customer_groups = array_merge($list, $array_customer_groups);
 }
 
