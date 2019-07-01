@@ -36,6 +36,24 @@ while (list ($lang) = $language_query->fetch(3)) {
 
         $_sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_rows ADD userid MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT '0' AFTER sendstatus;";
 
+        $_sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_rows CHANGE sendlist sendlist TEXT NOT NULL DEFAULT '';";
+
+        $_sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_rows CHANGE sendedlist sendedlist TEXT NOT NULL DEFAULT '';";
+
+        $_sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_smsrows CHANGE sendlist sendlist TEXT NOT NULL DEFAULT '';";
+
+        $_sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_smsrows CHANGE sendedlist sendedlist TEXT NOT NULL DEFAULT '' COMMENT 'Danh sách khách hàng đã gửi thư';";
+
+        $_sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_smsrows CHANGE errorlist errorlist TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'Danh sách lỗi';";
+
+        $_sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_rows CHANGE errorlist errorlist TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '';";
+
+        $_sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_rows CHANGE openedlist openedlist TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '';";
+
+        $_sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_smsrows_link CHANGE listclick listclick TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '';";
+
+        $_sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_rows_link CHANGE listclick listclick TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '';";
+
         if (!empty($_sql)) {
             foreach ($_sql as $sql) {
                 try {

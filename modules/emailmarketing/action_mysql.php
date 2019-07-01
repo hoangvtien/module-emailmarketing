@@ -37,7 +37,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   is_die tinyint(1) unsigned NOT NULL DEFAULT '0',
   is_declined tinyint(1) unsigned NOT NULL DEFAULT '0',
   status tinyint(1) NOT NULL DEFAULT '1',
-  userid_link mediumint(8) unsigned NOT NULL COMMENT 'Tài khoản liên kết',
+  userid_link mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Tài khoản liên kết',
   PRIMARY KEY (id),
   UNIQUE KEY email (email)
 ) ENGINE=MyISAM";
@@ -93,10 +93,10 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   usergroup text NOT NULL,
   customergroup text NOT NULL,
   emaillist text NOT NULL,
-  sendlist text NOT NULL COMMENT 'Danh sách khách hàng sẽ gửi',
-  sendedlist text NOT NULL COMMENT 'Danh sách khách hàng đã gửi thư',
-  errorlist text NOT NULL COMMENT 'Danh sách lỗi',
-  openedlist text NOT NULL COMMENT 'Danh sách khách hàng đã mở thư',
+  sendlist text NOT NULL DEFAULT '' COMMENT 'Danh sách khách hàng sẽ gửi',
+  sendedlist text NOT NULL DEFAULT '' COMMENT 'Danh sách khách hàng đã gửi thư',
+  errorlist text NOT NULL DEFAULT '' COMMENT 'Danh sách lỗi',
+  openedlist text NOT NULL DEFAULT '' COMMENT 'Danh sách khách hàng đã mở thư',
   totalemailsend mediumint(8) unsigned NOT NULL DEFAULT '0',
   totalmailsuccess mediumint(8) unsigned NOT NULL DEFAULT '0',
   addtime int(11) unsigned NOT NULL,
@@ -127,7 +127,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   linkmd5 varchar(32) NOT NULL,
   link text NOT NULL,
   countclick mediumint(8) unsigned NOT NULL DEFAULT '0',
-  listclick text NOT NULL
+  listclick text NOT NULL DEFAULT ''
 ) ENGINE=MyISAM";
 
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_sender(
