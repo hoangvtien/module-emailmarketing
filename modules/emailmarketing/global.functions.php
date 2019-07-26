@@ -277,7 +277,8 @@ function nv_build_content($rowsid, $content, $customer = array(), $linkstatics =
             if (preg_match_all("/$regexp/siU", $content, $matches)) {
                 foreach ($matches[2] as $link) {
                     $replace = NV_MY_DOMAIN . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['statics'] . '&amp;action=openlink&amp;rowsid=' . $rowsid . '&amp;customer=' . $idcustomer . '&amp;link=' . base64_encode($link) . '&amp;linkmd5=' . md5($link) . '&amp;checksum=' . md5($global_config['sitekey'] . '-' . $idcustomer . '-' . $rowsid);
-                    $content = str_replace($link, $replace, $content);
+                    $pos = strpos($content, $link, 0);
+                    $content = substr_replace($content, $replace, $pos, strlen($link));
                 }
             }
         }
